@@ -1,0 +1,457 @@
+{
+  "candidate_id": "candidate_a",
+  "profile": {
+    "candidate_name": "Rohan Malhotra",
+    "target_role": "Senior AI Systems Engineer (Multi-Agent)",
+    "experience_years": 4,
+    "skills": [
+      "Multi-Agent Systems",
+      "Planner-Executor-Reviewer",
+      "Python",
+      "FastAPI",
+      "Model Routing (SLM/GPT-4)",
+      "Exception Handling",
+      "EDI & Logistics Pipelines"
+    ],
+    "claims": [
+      {
+        "claim": "Sole Architect of Voltrix planner-executor-reviewer exception-handling engine.",
+        "evidence": "Interview Transcript (Q6/Q7): 'Fine — \"sole architect\" is probably too strong. I led the design, she [Priya] built most of the production version.'",
+        "verified": false,
+        "citation_source": "Transcript Q6/Q7"
+      },
+      {
+        "claim": "Implemented cost-based dynamic model routing between SLM and GPT-4.",
+        "evidence": "Interview Transcript (Q4): 'Cost-based. Simple stuff to the SLM, harder reasoning to GPT-4. No formal study, just tuned it as things broke.'",
+        "verified": true,
+        "citation_source": "Transcript Q4"
+      },
+      {
+        "claim": "Handled on-call production reliability for agent workflows under load.",
+        "evidence": "Interview Transcript (Q9): 'Voltrix’s user base is still small, so I haven’t seen serious incident volume yet.'",
+        "verified": false,
+        "citation_source": "Transcript Q9"
+      }
+    ],
+    "resume_facts": [
+      {
+        "category": "Experience",
+        "detail": "AI Systems Engineer at Voltrix (2023 - Present, 1.2 yrs)",
+        "quote": "Architected multi-agent exception-handling engine handling freight failure classifications."
+      },
+      {
+        "category": "Experience",
+        "detail": "Software Engineer at LogiFlow (2022 - 2023, 1 yr)",
+        "quote": "Built microservices for freight logistics workflows."
+      },
+      {
+        "category": "Tenure Pattern",
+        "detail": "Three roles in 3.5 years across logistics tech",
+        "quote": "Average tenure ~1 year per company."
+      }
+    ],
+    "transcript_facts": [
+      {
+        "topic": "Multi-Agent Architecture",
+        "detail": "Described planner-executor-reviewer structure for freight exception handling.",
+        "quote": "It’s planner-executor-reviewer. Failures come in, get classified, retried or escalated, then double-checked. I designed the whole retry/escalation logic."
+      },
+      {
+        "topic": "Team Contribution & Code Authorship",
+        "detail": "Conceded peer engineer Priya implemented the production version of the exception engine.",
+        "quote": "I designed it. Priya did a lot of the implementation, I reviewed her PRs. I was the architect... Fine — 'sole architect' is probably too strong."
+      },
+      {
+        "topic": "Benchmarking & Evaluation",
+        "detail": "Admits lack of formal metrics for reviewer agent override rate and model routing.",
+        "quote": "We track override rate. It’s low. I’d have to check the exact number though, haven’t looked recently. No formal study, just tuned it as things broke."
+      },
+      {
+        "topic": "Job Motivation & Retention",
+        "detail": "Frequent job changes driven primarily by compensation and title upgrades.",
+        "quote": "You've had three roles in 3.5 years... Better pay and title, mostly. Voltrix is more aligned with what I want long-term."
+      }
+    ],
+    "gaps_missing_info": [
+      {
+        "gap": "Authorship dilution on core multi-agent engine (sole architect resume claim contradicted by Priya's implementation)",
+        "impact": "High risk regarding actual hands-on debugging capacity and low-level agent code ownership."
+      },
+      {
+        "gap": "Lack of evaluation benchmarks for reviewer agent override rate and cost routing",
+        "impact": "Unmeasured agent reliability in production; inability to detect regressions."
+      }
+    ]
+  },
+  "independent_opinions": {
+    "Technical": {
+      "score": 7.5,
+      "confidence": "medium",
+      "invoked_at": "10:45:02.110 UTC",
+      "execution_order": 1,
+      "isolated_context_verified": true,
+      "requirement_breakdown": [
+        {
+          "requirement": "1. Multi-Agent Orchestration & Exception Recovery",
+          "status": "met",
+          "evidence": "Interview Transcript (Q1): Described planner-executor-reviewer pattern with retry logic.",
+          "points": 2.5
+        },
+        {
+          "requirement": "2. Evaluation Rigor & Baseline Benchmark Telemetry",
+          "status": "not_addressed",
+          "evidence": "Interview Transcript (Q3/Q4): 'No formal study, just tuned it as things broke.'",
+          "points": 0.0
+        },
+        {
+          "requirement": "3. Production Reliability, On-Call Ownership & Post-Mortem Guardrails",
+          "status": "partially_met",
+          "evidence": "Interview Transcript (Q9): On-call experience present, but user base small with low volume.",
+          "points": 1.25
+        },
+        {
+          "requirement": "4. Team Collaboration, Authorship Integrity & Retention Commitment",
+          "status": "contradicted",
+          "evidence": "Interview Transcript (Q7): Conceded Priya built the production version despite 'sole architect' resume claim.",
+          "points": -1.0
+        }
+      ],
+      "strengths": [
+        {
+          "point": "Direct architectural experience with planner-executor-reviewer multi-agent pattern for exception handling.",
+          "evidence": "Interview Transcript (Q1): 'It’s planner-executor-reviewer. Failures come in, get classified, retried or escalated, then double-checked.'",
+          "evidence_strength": "direct_statement",
+          "strength_justification": "Candidate explicitly detailed the planner-executor-reviewer cycle in response to technical probing."
+        }
+      ],
+      "concerns": [
+        {
+          "point": "Lacks formal evaluation rigor; tuning and model routing are ad-hoc without baseline studies.",
+          "evidence": "Interview Transcript (Q4): 'Cost-based. Simple stuff to the SLM, harder reasoning to GPT-4. No formal study, just tuned it as things broke.'",
+          "evidence_strength": "direct_statement",
+          "strength_justification": "Direct admission of unmeasured heuristic tuning during architectural questioning."
+        }
+      ],
+      "unknowns": [
+        "Actual solo coding output versus high-level review of Priya's implementation."
+      ],
+      "summary": "- Has relevant structural multi-agent exposure (planner-executor-reviewer, Q1)\n- Operates with ad-hoc heuristics rather than baseline benchmark studies (Q4)"
+    },
+    "HR": {
+      "score": 5.0,
+      "confidence": "high",
+      "invoked_at": "10:45:02.340 UTC",
+      "execution_order": 2,
+      "isolated_context_verified": true,
+      "repeated_runs": [5.0, 4.0, 5.5],
+      "consistency_note": "Re-evaluated 3x across boundary (scores: [5.0, 4.0, 5.5]). Validated consistent position on retention risk.",
+      "strengths": [
+        {
+          "point": "Direct, confident verbal communication style.",
+          "evidence": "Interview Transcript (Q5): 'Teammate wanted to hardcode more categories up front. I pushed for the agent approach. We went with mine.'",
+          "evidence_strength": "inferred",
+          "strength_justification": "Inferred from candidate's self-reported persuasion in team conflict resolution."
+        }
+      ],
+      "concerns": [
+        {
+          "point": "High turnover risk with 3 jobs in 3.5 years motivated solely by title and pay.",
+          "evidence": "Interview Transcript (Q10): 'You’ve had three roles in 3.5 years... Better pay and title, mostly.'",
+          "evidence_strength": "direct_statement",
+          "strength_justification": "Explicitly admitted salary and title were primary drivers of 3 job changes in 3.5 years."
+        },
+        {
+          "point": "Minimizes contributions of teammates and claims sole credit for collaborative work.",
+          "evidence": "Interview Transcript (Q6/Q7): 'Priya did a lot of the implementation... Fine — \"sole architect\" is probably too strong.'",
+          "evidence_strength": "contradicted_elsewhere",
+          "strength_justification": "Resume claim 'sole architect' is directly contradicted by interview admission regarding Priya."
+        }
+      ],
+      "unknowns": [
+        "Willingness to commit for more than 12 months in a challenging production cycle."
+      ],
+      "summary": "- Shows patterns of rapid job-hopping across 3 roles in 3.5 years (Q10)\n- Claims sole credit over collaborative work implemented by colleague Priya (Q7)"
+    },
+    "HiringManager": {
+      "score": 7.0,
+      "confidence": "medium",
+      "invoked_at": "10:45:02.580 UTC",
+      "execution_order": 3,
+      "isolated_context_verified": true,
+      "requirement_breakdown": [
+        {
+          "requirement": "1. Multi-Agent Orchestration & Exception Recovery",
+          "status": "met",
+          "evidence": "Familiar with domain exception structures.",
+          "points": 2.5
+        },
+        {
+          "requirement": "2. Evaluation Rigor & Baseline Benchmark Telemetry",
+          "status": "not_addressed",
+          "evidence": "No metrics available on override telemetry.",
+          "points": 0.0
+        },
+        {
+          "requirement": "3. Production Reliability, On-Call Ownership & Post-Mortem Guardrails",
+          "status": "partially_met",
+          "evidence": "Untested on heavy incident scale.",
+          "points": 1.25
+        },
+        {
+          "requirement": "4. Team Collaboration, Authorship Integrity & Retention Commitment",
+          "status": "contradicted",
+          "evidence": "High flight risk and authorship discrepancy.",
+          "points": -1.0
+        }
+      ],
+      "strengths": [
+        {
+          "point": "Fast ramp-up potential on our multi-agent stack given domain similarity.",
+          "evidence": "Interview Transcript (Q8): 'I move fast. I’ve built something structurally close to this already. I don’t think I’d need much ramp time.'",
+          "evidence_strength": "single_data_point",
+          "strength_justification": "Candidate assertion during pitch; not tested with practical coding probe."
+        }
+      ],
+      "concerns": [
+        {
+          "point": "Untested on-call resilience under heavy scale and serious incident volume.",
+          "evidence": "Interview Transcript (Q9): 'Voltrix’s user base is still small, so I haven’t seen serious incident volume yet.'",
+          "evidence_strength": "direct_statement",
+          "strength_justification": "Direct admission of small scale and lack of serious production outage volume."
+        }
+      ],
+      "unknowns": [
+        "Availability and dedication during high-stress production escalations."
+      ],
+      "summary": "- Moves fast with structural familiarity on agent exception patterns (Q8)\n- Remains unproven under serious production scale and incident volume (Q9)"
+    },
+    "Skeptic": {
+      "score": 4.0,
+      "confidence": "high",
+      "invoked_at": "10:45:02.810 UTC",
+      "execution_order": 4,
+      "isolated_context_verified": true,
+      "repeated_runs": [4.0, 3.5, 4.5],
+      "consistency_note": "Re-evaluated 3x (scores: [4.0, 3.5, 4.5]). Consistent detection of authorship overstatement.",
+      "strengths": [
+        {
+          "point": "Basic understanding of SLM vs GPT-4 cost tradeoffs.",
+          "evidence": "Interview Transcript (Q4): 'Simple stuff to the SLM, harder reasoning to GPT-4.'",
+          "evidence_strength": "single_data_point",
+          "strength_justification": "General cost heuristic mentioned once without formal cost-routing analysis."
+        }
+      ],
+      "concerns": [
+        {
+          "point": "Resume claim inflation: claimed 'sole architect' on resume despite teammate Priya implementing the system.",
+          "evidence": "Interview Transcript (Q7): 'Fine — \"sole architect\" is probably too strong. I led the design, she built most of the production version.'",
+          "evidence_strength": "contradicted_elsewhere",
+          "strength_justification": "Resume claim is in direct contradiction with Q7 interview concession."
+        },
+        {
+          "point": "Cannot cite basic production telemetry metrics for his own deployed reviewer agent.",
+          "evidence": "Interview Transcript (Q3): 'We track override rate. It’s low. I’d have to check the exact number though, haven’t looked recently.'",
+          "evidence_strength": "direct_statement",
+          "strength_justification": "Explicitly unable to produce telemetry numbers for core system."
+        }
+      ],
+      "unknowns": [
+        "Real depth in writing production agent code versus prompt drafting."
+      ],
+      "summary": "- Exaggerated resume claim regarding sole authorship of Voltrix engine (Q7)\n- Unable to produce telemetry metrics for reviewer agent override rate (Q3)"
+    }
+  },
+  "debate_log": [
+    {
+      "round": 1,
+      "agent": "Skeptic",
+      "target_agent": "Technical",
+      "claim_being_addressed": "Direct architectural experience with planner-executor-reviewer multi-agent pattern.",
+      "steelman": "Technical views Rohan's planner-executor-reviewer experience as valuable because understanding how to decompose tasks into planner and reviewer agents is rare and accelerates onboarding.",
+      "counter_evidence": "Interview Transcript (Q7): 'Fine — \"sole architect\" is probably too strong. I led the design, she built most of the production version.'",
+      "target_point_quote": "Direct architectural experience with planner-executor-reviewer multi-agent pattern.",
+      "reaction": "disagree",
+      "stance_shift_type": "HELD POSITION",
+      "opinion_before": {
+        "score": 4.0,
+        "stance": "Suspicious of resume inflation and authorship claims"
+      },
+      "saw": [],
+      "reasoning": "Technical rated him 7.5 based on multi-agent experience, but Rohan admitted Priya wrote the production code while he reviewed PRs. We need an engineer who can write orchestrator code, not an overseer.",
+      "opinion_after": {
+        "score": 4.0,
+        "stance": "Suspicious of resume inflation and authorship claims"
+      },
+      "changed": false,
+      "change_reason": "Held position (4.0): authorship ambiguity remains unaddressed."
+    },
+    {
+      "round": 1,
+      "agent": "Technical",
+      "target_agent": "Skeptic",
+      "claim_being_addressed": "Resume claim inflation: claimed 'sole architect' on resume despite teammate Priya implementing the system.",
+      "steelman": "Skeptic argues that claiming 'sole architect' on a resume when another engineer wrote the production code constitutes a severe trust and hands-on implementation risk that cannot be ignored.",
+      "counter_evidence": "Interview Transcript (Q3): unmeasured override rate",
+      "target_point_quote": "Resume claim inflation: claimed 'sole architect' on resume despite teammate Priya implementing the system.",
+      "reaction": "partially_agree",
+      "stance_shift_type": "STANCE SHIFTED",
+      "opinion_before": {
+        "score": 7.5,
+        "stance": "Optimistic on multi-agent familiarity"
+      },
+      "saw": [
+        "Interview Transcript (Q7): sole architect walk-back"
+      ],
+      "reasoning": "Skeptic is correct that his inability to recall override rates (Q3) and his admission regarding Priya's role (Q7) indicate he did not build the deep operational telemetry himself. Lowering score.",
+      "opinion_after": {
+        "score": 6.0,
+        "stance": "Downgraded due to unverified hands-on implementation and metrics"
+      },
+      "changed": true,
+      "change_reason": "Score reduced 7.5 -> 6.0 after verifying Priya wrote the core production logic."
+    },
+    {
+      "round": 2,
+      "agent": "HR",
+      "target_agent": "HiringManager",
+      "claim_being_addressed": "Fast ramp-up potential on our multi-agent stack.",
+      "steelman": "Hiring Manager values that Rohan already knows the logistics exception domain and can deploy agents on day one without needing domain training.",
+      "counter_evidence": "Interview Transcript (Q10): 'Better pay and title, mostly.'",
+      "target_point_quote": "Fast ramp-up potential on our multi-agent stack.",
+      "reaction": "disagree",
+      "stance_shift_type": "HELD POSITION",
+      "opinion_before": {
+        "score": 5.0,
+        "stance": "Concerned about flight risk and team credit-claiming"
+      },
+      "saw": [
+        "Interview Transcript (Q10): 'Better pay and title, mostly.'",
+        "Interview Transcript (Q5): dismissive teammate attitude"
+      ],
+      "reasoning": "Even if he ramps fast, having 3 jobs in 3.5 years strictly for title hops means he will likely depart before delivering multi-quarter system reliability.",
+      "opinion_after": {
+        "score": 5.0,
+        "stance": "Concerned about flight risk and team credit-claiming"
+      },
+      "changed": false,
+      "change_reason": "Held position (5.0): flight risk and credit-claiming remain critical barriers."
+    },
+    {
+      "round": 2,
+      "agent": "HiringManager",
+      "target_agent": "HR",
+      "claim_being_addressed": "High turnover risk with 3 jobs in 3.5 years motivated solely by title and pay.",
+      "steelman": "HR emphasizes that rapid departures leave production systems orphaned and incur heavy recruitment overhead that outweighs initial ramp velocity.",
+      "counter_evidence": "Interview Transcript (Q9): small user base, no serious incidents",
+      "target_point_quote": "High turnover risk with 3 jobs in 3.5 years motivated solely by title and pay.",
+      "reaction": "partially_agree",
+      "stance_shift_type": "PARTIALLY SHIFTED",
+      "opinion_before": {
+        "score": 7.0,
+        "stance": "Favorable on quick multi-agent deployment"
+      },
+      "saw": [
+        "Interview Transcript (Q9): small user base, no serious incidents",
+        "Technical's downgraded score (6.0)"
+      ],
+      "reasoning": "If his hands-on coding is unverified and Voltrix never saw real incident volume, the fast ramp advantage is neutralized by high turnover risk.",
+      "opinion_after": {
+        "score": 5.5,
+        "stance": "Caution on long-term reliability and ownership"
+      },
+      "changed": true,
+      "change_reason": "Score reduced 7.0 -> 5.5 after weighing authorship caveats and lack of incident experience."
+    }
+  ],
+  "chair_output": {
+    "final_recommendation": "Lean No",
+    "confidence": "medium",
+    "confidence_cap_reason": "Confidence capped at Medium: core claim 'sole architect' is unverified against source code repository and contradicted by Priya's implementation.",
+    "reasoning_steps": [
+      "1. Pre-debate score variance was high (2.36), reflecting deep panel division between Technical familiarity vs Skeptic fraud detection.",
+      "2. Hybrid Deterministic Weighing computed net weighted score 4.22/10 (vs raw arithmetic mean 5.88/10) after penalizing contradicted_elsewhere claims on sole authorship and applying contested penalties.",
+      "3. Skeptic steelmanned Technical's position before proving candidate conceded teammate Priya wrote production code (Interview Transcript Q7).",
+      "4. Candidate demonstrated an ad-hoc engineering approach without formal benchmarks for agent overrides or routing (Interview Transcript Q3, Q4).",
+      "5. HR established significant retention risk based on 3 job hops in 3.5 years motivated solely by compensation and title (Interview Transcript Q10).",
+      "6. Chair concludes that superficial multi-agent exposure does not compensate for resume claim inflation, lack of measurement rigor, and flight risk. Confidence is capped at Medium due to unverified code repository contributions."
+    ],
+    "key_evidence_for": [
+      {
+        "point": "Familiarity with planner-executor-reviewer agent architectures for classification exceptions.",
+        "evidence": "Interview Transcript (Q1): 'It’s planner-executor-reviewer. Failures come in, get classified, retried or escalated, then double-checked.'",
+        "evidence_strength": "direct_statement",
+        "strength_justification": "Direct architectural explanation during interview."
+      }
+    ],
+    "key_evidence_against": [
+      {
+        "point": "Resume inflation regarding sole authorship of Voltrix exception engine.",
+        "evidence": "Interview Transcript (Q7): 'Fine — \"sole architect\" is probably too strong. I led the design, she built most of the production version.'",
+        "evidence_strength": "contradicted_elsewhere",
+        "strength_justification": "Resume claim contradicted by interview statement."
+      },
+      {
+        "point": "Lack of telemetry benchmarks or formal evaluation for model routing and reviewer accuracy.",
+        "evidence": "Interview Transcript (Q3/Q4): 'We track override rate... haven’t looked recently. No formal study, just tuned it as things broke.'",
+        "evidence_strength": "direct_statement",
+        "strength_justification": "Direct admission of unmeasured system heuristics."
+      },
+      {
+        "point": "Flight risk and short tenure across previous positions.",
+        "evidence": "Interview Transcript (Q10): 'You’ve had three roles in 3.5 years... Better pay and title, mostly.'",
+        "evidence_strength": "direct_statement",
+        "strength_justification": "Explicit admission of compensation-driven job hopping."
+      }
+    ],
+    "unresolved_disagreements": [
+      {
+        "topic": "Skeptic vs Technical on 'Direct architectural experience with planner-executor-reviewer...'",
+        "agents_involved": ["Skeptic", "Technical"],
+        "why_unresolved": "Held position (4.0): authorship ambiguity remains unaddressed.",
+        "turn_reference": 1
+      },
+      {
+        "topic": "HR vs HiringManager on 'Fast ramp-up potential on our multi-agent stack...'",
+        "agents_involved": ["HR", "HiringManager"],
+        "why_unresolved": "Held position (5.0): flight risk and credit-claiming remain critical barriers.",
+        "turn_reference": 3
+      }
+    ],
+    "missing_info_caveats": [
+      "Direct technical references from Voltrix engineering lead regarding Priya vs Rohan's code contribution.",
+      "Access to actual GitHub commit history or design RFCs from Voltrix."
+    ],
+    "verdict_sensitivity": [
+      {
+        "factor": "Resume inflation regarding sole authorship of Voltrix exception engine (Priya vs Rohan implementation)",
+        "current_status": "contested",
+        "current_weight_contribution": 3.5,
+        "if_resolved_as": "confirmed",
+        "projected_verdict_shift": "Lean No -> Hire",
+        "how_to_resolve": "Verify GitHub commit history or get a direct reference from the Voltrix engineering lead",
+        "source_quote": "Interview Transcript (Q7): 'Fine — \"sole architect\" is probably too strong. I led the design, she built most of the production version.'",
+        "source_label": "Debate Turn 1"
+      },
+      {
+        "factor": "Reviewer agent override rate telemetry and formal latency benchmarks unmeasured in production",
+        "current_status": "unverified",
+        "current_weight_contribution": 2.0,
+        "if_resolved_as": "confirmed",
+        "projected_verdict_shift": "No change — not decisive enough alone",
+        "how_to_resolve": "Request production telemetry dashboard or Grafana override metrics from the candidate's current team",
+        "source_quote": "Interview Transcript (Q3/Q4): 'We track override rate... haven’t looked recently. No formal study, just tuned it as things broke.'",
+        "source_label": "Skeptic Evaluation"
+      },
+      {
+        "factor": "Retention and flight risk concerns across 3 positions in 3.5 years motivated by compensation",
+        "current_status": "weakly_evidenced",
+        "current_weight_contribution": 1.5,
+        "if_resolved_as": "confirmed",
+        "projected_verdict_shift": "No change — not decisive enough alone",
+        "how_to_resolve": "Conduct targeted reference check with previous hiring manager regarding commitment and project completion timeline",
+        "source_quote": "Interview Transcript (Q10): 'You’ve had three roles in 3.5 years... Better pay and title, mostly.'",
+        "source_label": "HR Evaluation"
+      }
+    ]
+  }
+}

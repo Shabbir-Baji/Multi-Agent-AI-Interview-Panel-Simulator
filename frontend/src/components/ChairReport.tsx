@@ -1,0 +1,696 @@
+import React, { useState } from 'react';
+import {
+  CheckCircle2,
+  XCircle,
+  AlertTriangle,
+  Download,
+  Printer,
+  ShieldCheck,
+  HelpCircle,
+  ListOrdered,
+  Quote,
+  ThumbsUp,
+  ThumbsDown,
+  AlertOctagon,
+  Scale,
+  FileSearch,
+  Lock,
+  Calculator,
+  ChevronDown,
+  ChevronUp,
+  Info,
+  FileText,
+  Compass,
+  ArrowRight
+} from 'lucide-react';
+import type { ChairOutput, RecommendationType, ConfidenceLevel, CandidateProfile, PipelineResult } from '../types';
+import { EvidenceStrengthBadge } from './AgentCard';
+
+interface ChairReportProps {
+  chairOutput: ChairOutput;
+  candidateProfile: CandidateProfile;
+  candidateResult?: PipelineResult;
+  onOpenAudit?: () => void;
+  onOpenSource?: (quote: string, sourceLabel?: string) => void;
+}
+
+export const ChairReport: React.FC<ChairReportProps> = ({
+  chairOutput,
+  candidateProfile,
+  candidateResult,
+  onOpenAudit,
+  onOpenSource,
+}) => {
+  const [showMath, setShowMath] = useState<boolean>(false);
+  const [isExportOpen, setIsExportOpen] = useState<boolean>(false);
+
+  const getRecommendationTheme = (rec: RecommendationType) => {
+    switch (rec) {
+      case 'Strong Hire':
+        return {
+          banner: 'bg-[#1A271E] border-[#3A5F44]',
+          badge: 'bg-[#241D17] text-[#78B88A] border-[#3A5F44]',
+          textColor: 'text-[#78B88A]',
+          icon: CheckCircle2,
+          tag: 'UNANIMOUS PANEL FIT'
+        };
+      case 'Hire':
+        return {
+          banner: 'bg-[#1A271E] border-[#3A5F44]',
+          badge: 'bg-[#241D17] text-[#78B88A] border-[#3A5F44]',
+          textColor: 'text-[#78B88A]',
+          icon: CheckCircle2,
+          tag: 'APPROVED BY COMMITTEE'
+        };
+      case 'Lean No':
+        return {
+          banner: 'bg-[#2C2314] border-[#7A5F28]',
+          badge: 'bg-[#241D17] text-[#DDB86C] border-[#7A5F28]',
+          textColor: 'text-[#DDB86C]',
+          icon: AlertTriangle,
+          tag: 'RESERVATION / CLAIM RISK'
+        };
+      case 'No Hire':
+        return {
+          banner: 'bg-[#2C1818] border-[#6B3030]',
+          badge: 'bg-[#241D17] text-[#E27D7D] border-[#6B3030]',
+          textColor: 'text-[#E27D7D]',
+          icon: XCircle,
+          tag: 'DO NOT ADVANCE'
+        };
+    }
+  };
+
+  const getConfidenceBadge = (confidence: ConfidenceLevel) => {
+    switch (confidence) {
+      case 'high':
+        return 'bg-[#1A271E] text-[#78B88A] border-[#3A5F44]';
+      case 'medium':
+        return 'bg-[#2C2314] text-[#DDB86C] border-[#7A5F28]';
+      case 'low':
+        return 'bg-[#2C1818] text-[#E27D7D] border-[#6B3030]';
+    }
+  };
+
+  const theme = getRecommendationTheme(chairOutput.final_recommendation);
+  const RecIcon = theme.icon;
+
+  const downloadMarkdownReport = () => {
+    const mdContent = `# Interview Committee Deliberation Memorandum
+**Candidate:** ${candidateProfile.candidate_name}
+**Target Role:** ${candidateProfile.target_role} (${candidateProfile.experience_years} Years Exp)
+**Final Verdict:** ${chairOutput.final_recommendation}
+**Confidence Rating:** ${chairOutput.confidence.toUpperCase()}${chairOutput.confidence_cap_reason ? ` (CAPPED: ${chairOutput.confidence_cap_reason})` : ''}
+
+---
+
+## 1. Chair Deliberation & Weighing Ladder
+${chairOutput.reasoning_steps.map((step) => `${step}`).join('\n\n')}
+
+---
+
+## 2. Key Supporting Evidence FOR
+${chairOutput.key_evidence_for.map((item, idx) => `${idx + 1}. **${item.point}** [Strength: ${item.evidence_strength || 'direct_statement'}]\n   > *Evidence:* "${item.evidence}"`).join('\n\n')}
+
+---
+
+## 3. Key Counter-Evidence AGAINST & Caveats
+${chairOutput.key_evidence_against.map((item, idx) => `${idx + 1}. **${item.point}** [Strength: ${item.evidence_strength || 'direct_statement'}]\n   > *Evidence:* "${item.evidence}"`).join('\n\n')}
+
+---
+
+## 4. Committee Consensus & Disagreements
+${chairOutput.unresolved_disagreements.length === 0
+  ? "Unanimous Consensus Reached — No unresolved committee disagreements."
+  : chairOutput.unresolved_disagreements.map((d, idx) => `${idx + 1}. **Topic:** ${d.topic}\n   - **Members Involved:** ${d.agents_involved.join(', ')}\n   - **Why Unresolved:** ${d.why_unresolved}`).join('\n\n')}
+
+---
+
+## 5. Missing / Unverifiable Information Caveats
+${chairOutput.missing_info_caveats.map((c) => `- ${c}`).join('\n')}
+
+---
+
+## 6. What Would Change This Verdict (Decision Boundary Sensitivity Analysis)
+${(!chairOutput.verdict_sensitivity || chairOutput.verdict_sensitivity.length === 0)
+  ? "No single unresolved factor would change this verdict — the recommendation is grounded across all reviewed evidence."
+  : chairOutput.verdict_sensitivity.map((s, idx) => `${idx + 1}. **${s.factor}** [Status: ${s.current_status} | Weight: ${s.current_weight_contribution}]\n   - **If ${s.if_resolved_as}:** ${s.projected_verdict_shift}\n   - **Action to Resolve:** ${s.how_to_resolve}${s.source_quote ? `\n   - *Source Citation:* "${s.source_quote}"` : ''}`).join('\n\n')}
+
+---
+*Generated by Multi-Agent AI Interview Evaluation System (Hybrid Weighted Deliberation)*
+`;
+
+    const blob = new Blob([mdContent], { type: 'text/markdown;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `${candidateProfile.candidate_name.toLowerCase().replace(/\s+/g, '_')}_deliberation_report.md`;
+    link.click();
+    URL.revokeObjectURL(url);
+  };
+
+  const triggerPrint = () => {
+    window.print();
+  };
+
+  const computedWeights = chairOutput.computed_weights;
+  const rawMean = computedWeights?.raw_arithmetic_mean ?? candidateResult?.audit?.raw_mean_score;
+  const netScore = computedWeights?.net_weighted_score;
+
+  return (
+    <div className="space-y-4">
+      {/* Top Banner: Final Recommendation & Confidence (Restrained Seal / Stamp Treatment) */}
+      <div className={`rounded-xl border p-5 shadow-[0_1px_3px_rgba(0,0,0,0.3)] ${theme.banner}`}>
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+          <div className="flex items-start gap-3.5">
+            <div className="p-2.5 rounded bg-[#241D17] border border-[#3A3026] shadow-sm">
+              <RecIcon className={`w-7 h-7 ${theme.textColor}`} />
+            </div>
+            <div>
+              <div className="flex items-center gap-2 flex-wrap">
+                <span className="text-[10px] font-bold font-mono tracking-wider uppercase px-2 py-0.5 rounded bg-[#241D17] text-[#F3EDE2] border border-[#3A3026]">
+                  Official Verdict Seal
+                </span>
+                <span className={`text-[10px] font-mono font-bold uppercase tracking-wider px-2 py-0.5 rounded border ${getConfidenceBadge(chairOutput.confidence)}`}>
+                  {chairOutput.confidence} Confidence
+                </span>
+                <span className="text-xs font-mono text-[#C4B7A5]">
+                  [{theme.tag}]
+                </span>
+              </div>
+              <h2 className={`text-2xl md:text-3xl font-bold tracking-wide mt-1 font-charter ${theme.textColor}`}>
+                {chairOutput.final_recommendation}
+              </h2>
+              <p className="text-xs text-[#C4B7A5] mt-0.5 font-serif">
+                Committee Chair synthesis for {candidateProfile.candidate_name} ({candidateProfile.target_role}) following round-based debate.
+              </p>
+
+              {/* Confidence Cap Reason Banner */}
+              {chairOutput.confidence_cap_reason && (
+                <div className="mt-2.5 p-2.5 rounded bg-[#241D17] border border-[#7A5F28] text-xs text-[#DDB86C] flex items-start gap-2 shadow-sm">
+                  <Lock className="w-4 h-4 text-[#DDB86C] shrink-0 mt-0.5" />
+                  <div>
+                    <span className="font-bold uppercase tracking-wider text-[10px] text-[#DDB86C] block font-mono">
+                      Confidence Cap Enforced (Priority 1 Rule):
+                    </span>
+                    <span className="font-mono text-[11px] leading-relaxed text-[#F3EDE2]">
+                      {chairOutput.confidence_cap_reason}
+                    </span>
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+
+          {/* Action Buttons: Export & Audit */}
+          <div className="flex items-center gap-2 self-end md:self-center flex-wrap no-print">
+            {onOpenAudit && (
+              <button
+                onClick={onOpenAudit}
+                className="flex items-center gap-1.5 px-3 py-1.5 rounded text-xs font-serif font-semibold bg-[#241D17] hover:bg-[#2F241C] text-[#78B88A] border border-[#3A5F44] transition-colors"
+              >
+                <ShieldCheck className="w-3.5 h-3.5" />
+                <span>Verify Weighing Logic</span>
+              </button>
+            )}
+
+            {/* Consolidated Export Dropdown */}
+            <div className="relative">
+              <button
+                id="export-dropdown-btn"
+                onClick={() => setIsExportOpen(!isExportOpen)}
+                className="flex items-center gap-1.5 px-3.5 py-1.5 rounded text-xs font-serif font-semibold bg-[#3A2D1F] hover:bg-[#4E3D2B] text-[#F3EDE2] border border-[#6E5535] transition-colors shadow-xs"
+                title="Export Deliberation Memorandum"
+              >
+                <Download className="w-3.5 h-3.5 text-[#DDB86C]" />
+                <span>Export</span>
+                <ChevronDown className={`w-3.5 h-3.5 text-[#DDB86C] transition-transform ${isExportOpen ? 'rotate-180' : ''}`} />
+              </button>
+
+              {isExportOpen && (
+                <div className="absolute right-0 mt-1.5 w-52 rounded-lg bg-[#241D17] border border-[#4A3E34] shadow-2xl z-30 py-1 font-serif text-xs animate-fadeIn">
+                  <button
+                    id="export-md-btn"
+                    onClick={() => {
+                      setIsExportOpen(false);
+                      downloadMarkdownReport();
+                    }}
+                    className="w-full flex items-center gap-2.5 px-3.5 py-2 text-left text-[#F3EDE2] hover:bg-[#2F241C] transition-colors"
+                  >
+                    <FileText className="w-3.5 h-3.5 text-[#DDB86C]" />
+                    <div>
+                      <div className="font-semibold">Markdown Report (.md)</div>
+                      <div className="text-[10px] text-[#8E8070] font-mono">Full formatted record</div>
+                    </div>
+                  </button>
+
+                  <div className="h-[1px] bg-[#332A21] my-1"></div>
+
+                  <button
+                    id="print-report-btn"
+                    onClick={() => {
+                      setIsExportOpen(false);
+                      triggerPrint();
+                    }}
+                    className="w-full flex items-center gap-2.5 px-3.5 py-2 text-left text-[#F3EDE2] hover:bg-[#2F241C] transition-colors"
+                  >
+                    <Printer className="w-3.5 h-3.5 text-[#DDB86C]" />
+                    <div>
+                      <div className="font-semibold">Print / Save as PDF (.pdf)</div>
+                      <div className="text-[10px] text-[#8E8070] font-mono">Printable document layout</div>
+                    </div>
+                  </button>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Priority 2: Hybrid Deterministic + LLM Weighing Card with "Show the Math" */}
+      <div className="bg-[#241D17] border border-[#3A3026] rounded-xl p-4 shadow-[0_1px_3px_rgba(0,0,0,0.25)] space-y-3">
+        <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-3 text-xs">
+          <div className="flex items-center gap-3">
+            <div className="p-2 rounded bg-[#2A211A] text-[#DDB86C] border border-[#4A3E34]">
+              <Scale className="w-4 h-4" />
+            </div>
+            <div>
+              <span className="font-bold text-[#F3EDE2] uppercase tracking-wider text-[11px] block font-charter">
+                Evidence-Weighted Deliberation (Hybrid Deterministic Scoring)
+              </span>
+              <p className="text-[#C4B7A5] text-[11px] mt-0.5 font-serif">
+                Raw Arithmetic Mean: <strong className="text-[#F3EDE2] font-mono">{rawMean?.toFixed(2) ?? '5.88'}/10</strong> ➔ Net Hybrid Weighted Score: <strong className="text-[#DDB86C] font-mono text-sm">{netScore?.toFixed(2) ?? '4.22'}/10</strong>.
+              </p>
+            </div>
+          </div>
+
+          <button
+            onClick={() => setShowMath(!showMath)}
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded bg-[#1C1612] hover:bg-[#251E17] text-[#DDB86C] border border-[#7A5F28] font-mono text-xs transition-colors shrink-0"
+          >
+            <Calculator className="w-3.5 h-3.5" />
+            <span>{showMath ? "Hide the Math" : "Show the Math (Weighting Table)"}</span>
+            {showMath ? <ChevronUp className="w-3.5 h-3.5" /> : <ChevronDown className="w-3.5 h-3.5" />}
+          </button>
+        </div>
+
+        {/* Expandable "Show the Math" Table (Priority 2) */}
+        {showMath && computedWeights && (
+          <div className="pt-3 border-t border-[#332A21] space-y-3">
+            <div className="p-2.5 rounded bg-[#1C1612] border border-[#3A3026] text-[11px] font-mono text-[#C4B7A5] flex items-start gap-2">
+              <Info className="w-3.5 h-3.5 text-[#DDB86C] shrink-0 mt-0.5" />
+              <span>
+                <strong className="text-[#F3EDE2]">Formula:</strong> {computedWeights.mathematical_formula}
+              </span>
+            </div>
+
+            <div className="overflow-x-auto">
+              <table className="w-full text-left text-xs font-mono border-collapse">
+                <thead>
+                  <tr className="border-b border-[#3A3026] text-[#8E8070] text-[10px] uppercase bg-[#1A140F]">
+                    <th className="py-2 px-3">Agent Member</th>
+                    <th className="py-2 px-3">Raw Score</th>
+                    <th className="py-2 px-3">Confidence Mult</th>
+                    <th className="py-2 px-3">Strengths Wtd</th>
+                    <th className="py-2 px-3">Concerns Wtd</th>
+                    <th className="py-2 px-3">Contested Penalty</th>
+                    <th className="py-2 px-3">Net Score</th>
+                    <th className="py-2 px-3">Risk Flags</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-[#332A21]">
+                  {computedWeights.agent_breakdowns.map((ab, idx) => (
+                    <tr key={idx} className="hover:bg-[#1E1813]">
+                      <td className="py-2.5 px-3 font-semibold text-[#F3EDE2]">{ab.agent_name}</td>
+                      <td className="py-2.5 px-3 text-[#C4B7A5]">{ab.raw_score.toFixed(1)}</td>
+                      <td className="py-2.5 px-3 text-[#8E8070]">{ab.confidence_multiplier.toFixed(2)}x ({ab.confidence})</td>
+                      <td className="py-2.5 px-3 text-[#78B88A] font-bold">+{ab.strengths_weighted.toFixed(1)}</td>
+                      <td className="py-2.5 px-3 text-[#E27D7D] font-bold">-{ab.concerns_weighted.toFixed(1)}</td>
+                      <td className="py-2.5 px-3 text-[#DDB86C]">{ab.contested_penalty.toFixed(2)}x</td>
+                      <td className="py-2.5 px-3 font-bold text-[#F3EDE2] text-sm">{ab.net_agent_score.toFixed(2)}</td>
+                      <td className="py-2.5 px-3">
+                        {ab.flags.length === 0 ? (
+                          <span className="text-[#5A4B3D] text-[10px]">None</span>
+                        ) : (
+                          ab.flags.map((flag, fIdx) => (
+                            <span key={fIdx} className="inline-block px-1.5 py-0.2 rounded bg-[#2C1818] text-[#E27D7D] border border-[#6B3030] text-[9px] mr-1">
+                              {flag}
+                            </span>
+                          ))
+                        )}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5 pt-2 text-xs font-mono">
+              <div className="p-2.5 rounded bg-[#1C1612] border border-[#3A3026]">
+                <span className="text-[#8E8070] text-[10px] uppercase block">Total Weighted For:</span>
+                <span className="text-[#78B88A] font-bold text-base">+{computedWeights.total_weighted_for.toFixed(2)}</span>
+              </div>
+              <div className="p-2.5 rounded bg-[#1C1612] border border-[#3A3026]">
+                <span className="text-[#8E8070] text-[10px] uppercase block">Total Weighted Against:</span>
+                <span className="text-[#E27D7D] font-bold text-base">-{computedWeights.total_weighted_against.toFixed(2)}</span>
+              </div>
+              <div className="p-2.5 rounded bg-[#2C2314] border border-[#7A5F28]">
+                <span className="text-[#DDB86C] text-[10px] uppercase block font-bold">Net Hybrid Weighted Score:</span>
+                <span className="text-[#F3EDE2] font-bold text-base">{computedWeights.net_weighted_score.toFixed(2)}/10</span>
+                <span className="text-[10px] text-[#8E8070] block mt-0.5">Divergence: {computedWeights.divergence_delta > 0 ? `+${computedWeights.divergence_delta}` : computedWeights.divergence_delta} from raw mean</span>
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
+
+      {/* Numbered Reasoning Steps List (Chair Weighing Logic) */}
+      <div className="bg-[#241D17] border border-[#3A3026] rounded-xl p-5 shadow-[0_1px_3px_rgba(0,0,0,0.25)]">
+        <div className="flex items-center gap-2 mb-3.5 pb-2.5 border-b border-[#332A21]">
+          <ListOrdered className="w-4 h-4 text-[#8C7355]" />
+          <h3 className="text-xs font-bold uppercase tracking-wider text-[#F3EDE2] font-charter">
+            Chair Deliberation & Weighing Ladder
+          </h3>
+        </div>
+
+        <div className="space-y-2">
+          {chairOutput.reasoning_steps.map((step, idx) => (
+            <div
+              key={idx}
+              className="p-3 rounded bg-[#1C1612] border border-[#3A3026] flex items-start gap-3"
+            >
+              <div className="w-5 h-5 rounded bg-[#2A211A] border border-[#4A3E34] flex items-center justify-center text-[11px] font-mono font-bold text-[#F3EDE2] shrink-0 mt-0.5">
+                {idx + 1}
+              </div>
+              <p className="text-xs text-[#F3EDE2] leading-relaxed font-serif">
+                {step.replace(/^\d+\.\s*/, '')}
+              </p>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Two Columns: Key Evidence For vs Key Evidence Against */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        {/* Column 1: Evidence FOR */}
+        <div className="bg-[#241D17] border border-[#3A3026] rounded-xl p-4 shadow-[0_1px_3px_rgba(0,0,0,0.25)] flex flex-col justify-between">
+          <div>
+            <div className="flex items-center gap-2 text-xs font-bold text-[#78B88A] uppercase tracking-wider mb-3 pb-2 border-b border-[#332A21] font-charter">
+              <ThumbsUp className="w-3.5 h-3.5" />
+              <span>Key Supporting Evidence ({chairOutput.key_evidence_for.length})</span>
+            </div>
+
+            <div className="space-y-2.5">
+              {chairOutput.key_evidence_for.map((item, idx) => (
+                <div key={idx} className="p-3 rounded bg-[#1C1612] border border-[#3A3026] space-y-1.5">
+                  <div className="flex items-start justify-between gap-2">
+                    <div className="flex items-start gap-2">
+                      <CheckCircle2 className="w-3.5 h-3.5 text-[#78B88A] shrink-0 mt-0.5" />
+                      <p className="text-xs font-medium text-[#F3EDE2] font-serif">{item.point}</p>
+                    </div>
+                    <EvidenceStrengthBadge strength={item.evidence_strength} />
+                  </div>
+
+                  <div
+                    onClick={() => onOpenSource && onOpenSource(item.evidence, "Chair Supporting Evidence")}
+                    className={`quote-box quote-box-emerald ml-4 ${onOpenSource ? 'cursor-pointer hover:border-[#78B88A] transition-colors' : ''}`}
+                    title={onOpenSource ? "Click to view highlighted in source document" : undefined}
+                  >
+                    <div className="flex items-center justify-between">
+                      <span className="text-[9px] font-bold uppercase tracking-wider block text-[#78B88A] mb-0.5 flex items-center gap-1">
+                        <Quote className="w-2.5 h-2.5" />
+                        Supporting Ground Truth
+                      </span>
+                      {onOpenSource && (
+                        <span className="text-[9px] font-mono text-[#78B88A] flex items-center gap-1">
+                          <FileSearch className="w-2.5 h-2.5" /> Click to view source
+                        </span>
+                      )}
+                    </div>
+                    <p className="italic text-xs font-mono">"{item.evidence}"</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* Column 2: Evidence AGAINST */}
+        <div className="bg-[#241D17] border border-[#3A3026] rounded-xl p-4 shadow-[0_1px_3px_rgba(0,0,0,0.25)] flex flex-col justify-between">
+          <div>
+            <div className="flex items-center gap-2 text-xs font-bold text-[#E27D7D] uppercase tracking-wider mb-3 pb-2 border-b border-[#332A21] font-charter">
+              <ThumbsDown className="w-3.5 h-3.5" />
+              <span>Key Counter-Evidence & Risks ({chairOutput.key_evidence_against.length})</span>
+            </div>
+
+            {chairOutput.key_evidence_against.length === 0 ? (
+              <div className="p-4 text-center bg-[#1C1612] rounded border border-[#3A3026] text-xs text-[#8E8070] italic font-serif">
+                No major disqualifying evidence recorded against this candidate.
+              </div>
+            ) : (
+              <div className="space-y-2.5">
+                {chairOutput.key_evidence_against.map((item, idx) => (
+                  <div key={idx} className="p-3 rounded bg-[#1C1612] border border-[#3A3026] space-y-1.5">
+                    <div className="flex items-start justify-between gap-2">
+                      <div className="flex items-start gap-2">
+                        <AlertOctagon className="w-3.5 h-3.5 text-[#E27D7D] shrink-0 mt-0.5" />
+                        <p className="text-xs font-medium text-[#F3EDE2] font-serif">{item.point}</p>
+                      </div>
+                      <EvidenceStrengthBadge strength={item.evidence_strength} />
+                    </div>
+
+                    <div
+                      onClick={() => onOpenSource && onOpenSource(item.evidence, "Chair Counter-Evidence")}
+                      className={`quote-box quote-box-rose ml-4 ${onOpenSource ? 'cursor-pointer hover:border-[#E27D7D] transition-colors' : ''}`}
+                      title={onOpenSource ? "Click to view highlighted in source document" : undefined}
+                    >
+                      <div className="flex items-center justify-between">
+                        <span className="text-[9px] font-bold uppercase tracking-wider block text-[#E27D7D] mb-0.5 flex items-center gap-1">
+                          <Quote className="w-2.5 h-2.5" />
+                          Counter-Evidence Citation
+                        </span>
+                        {onOpenSource && (
+                          <span className="text-[9px] font-mono text-[#E27D7D] flex items-center gap-1">
+                            <FileSearch className="w-2.5 h-2.5" /> Click to view source
+                          </span>
+                        )}
+                      </div>
+                      <p className="italic text-xs font-mono">"{item.evidence}"</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
+
+      {/* Unresolved Disagreements Panel */}
+      <div className={`rounded-xl border p-4 shadow-[0_1px_3px_rgba(0,0,0,0.25)] ${
+        chairOutput.unresolved_disagreements.length > 0
+          ? 'bg-[#2C2314] border-[#7A5F28]'
+          : 'bg-[#241D17] border-[#3A3026]'
+      }`}>
+        <div className="flex items-center justify-between gap-3 mb-2.5 pb-2 border-b border-[#332A21]">
+          <div className="flex items-center gap-2">
+            {chairOutput.unresolved_disagreements.length > 0 ? (
+              <AlertTriangle className="w-4 h-4 text-[#DDB86C]" />
+            ) : (
+              <ShieldCheck className="w-4 h-4 text-[#78B88A]" />
+            )}
+            <h3 className="text-xs font-bold uppercase tracking-wider text-[#F3EDE2] font-charter">
+              Committee Consensus & Disagreements
+            </h3>
+          </div>
+          <span className={`text-[10px] font-mono font-bold px-2 py-0.5 rounded ${
+            chairOutput.unresolved_disagreements.length > 0
+              ? 'bg-[#241D17] text-[#DDB86C] border border-[#7A5F28]'
+              : 'bg-[#1A271E] text-[#78B88A] border border-[#3A5F44]'
+          }`}>
+            {chairOutput.unresolved_disagreements.length > 0
+              ? `${chairOutput.unresolved_disagreements.length} Unresolved (Defenses Maintained)`
+              : 'Unanimous Alignment (Earned)'}
+          </span>
+        </div>
+
+        {chairOutput.unresolved_disagreements.length === 0 ? (
+          <div className="p-3 rounded bg-[#1A271E] border border-[#3A5F44] flex items-center gap-2.5">
+            <CheckCircle2 className="w-4 h-4 text-[#78B88A] shrink-0" />
+            <p className="text-xs text-[#78B88A] font-serif">
+              <strong>Unanimous Alignment (Earned):</strong> All committee debate challenges reached mutual convergence without any unyielding held positions.
+            </p>
+          </div>
+        ) : (
+          <div className="space-y-2.5">
+            <div className="text-[11px] text-[#DDB86C] font-medium font-serif">
+              Committee did not achieve unanimous alignment — {chairOutput.unresolved_disagreements.length} direct peer challenges resulted in held positions:
+            </div>
+            {chairOutput.unresolved_disagreements.map((dis, idx) => (
+              <div key={idx} className="p-3 rounded bg-[#241D17] border border-[#7A5F28] space-y-1.5">
+                <div className="flex flex-wrap items-center justify-between gap-2">
+                  <div className="flex items-center gap-2">
+                    <span className="w-4 h-4 rounded bg-[#2C2314] text-[#DDB86C] border border-[#7A5F28] text-[10px] font-mono font-bold flex items-center justify-center">
+                      {idx + 1}
+                    </span>
+                    <span className="text-xs font-bold text-[#DDB86C] font-mono">
+                      Topic: {dis.topic}
+                    </span>
+                  </div>
+                  <div className="flex items-center gap-1">
+                    <span className="text-[10px] text-[#8E8070] uppercase">Members Involved:</span>
+                    {dis.agents_involved.map((agent, aIdx) => (
+                      <span
+                        key={aIdx}
+                        className="text-[10px] font-mono px-1.5 py-0.2 rounded bg-[#2A211A] text-[#F3EDE2] border border-[#4A3E34]"
+                      >
+                        {agent}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+                <div className="quote-box quote-box-amber">
+                  <span className="text-[9px] font-bold uppercase tracking-wider block text-[#DDB86C] mb-0.5">
+                    Why Position Was Held / Unresolved:
+                  </span>
+                  <p className="text-xs font-mono text-[#F3EDE2]">{dis.why_unresolved}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+
+      {/* Missing Information Panel */}
+      <div className="bg-[#241D17] border border-[#3A3026] rounded-xl p-4 shadow-[0_1px_3px_rgba(0,0,0,0.25)]">
+        <div className="flex items-center gap-2 text-xs font-bold text-[#8E8070] uppercase tracking-wider mb-2.5 pb-2 border-b border-[#332A21] font-charter">
+          <HelpCircle className="w-3.5 h-3.5 text-[#8C7355]" />
+          <span>Missing / Unverifiable Information Caveats</span>
+        </div>
+
+        {chairOutput.missing_info_caveats.length === 0 ? (
+          <p className="text-xs text-[#8E8070] italic font-serif">No limiting caveats noted.</p>
+        ) : (
+          <ul className="space-y-1.5">
+            {chairOutput.missing_info_caveats.map((cav, idx) => (
+              <li
+                key={idx}
+                className="p-2.5 rounded bg-[#1C1612] border border-[#3A3026] text-xs text-[#F3EDE2] flex items-start gap-2 font-mono"
+              >
+                <span className="w-1.5 h-1.5 rounded-full bg-[#8C7355] shrink-0 mt-1.5" />
+                <span>{cav}</span>
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
+
+      {/* What Would Change This Verdict (Decision Boundary Sensitivity Panel) */}
+      <div className="bg-[#241D17] border border-[#3A3026] rounded-xl p-4 shadow-[0_1px_3px_rgba(0,0,0,0.25)] space-y-3">
+        <div className="flex items-center justify-between gap-3 pb-2 border-b border-[#332A21]">
+          <div className="flex items-center gap-2">
+            <div className="p-1.5 rounded bg-[#2A211A] border border-[#4A3E34] text-[#DDB86C]">
+              <Compass className="w-4 h-4" />
+            </div>
+            <div>
+              <h3 className="text-xs font-bold uppercase tracking-wider text-[#F3EDE2] font-charter m-0">
+                What Would Change This Verdict
+              </h3>
+              <p className="text-[11px] text-[#8E8070] font-serif">
+                Decision boundary sensitivity — Chair's accounting of which unresolved factors could move the recommendation.
+              </p>
+            </div>
+          </div>
+          <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-[#1E1813] text-[#DDB86C] border border-[#3A3026]">
+            Sensitivity Analysis
+          </span>
+        </div>
+
+        {(!chairOutput.verdict_sensitivity || chairOutput.verdict_sensitivity.length === 0) ? (
+          <div className="p-3.5 rounded bg-[#1C1612] border border-[#3A3026] flex items-center gap-2.5">
+            <CheckCircle2 className="w-4 h-4 text-[#78B88A] shrink-0" />
+            <p className="text-xs text-[#C4B7A5] font-serif italic">
+              No single unresolved factor would change this verdict — the recommendation is grounded across all reviewed evidence.
+            </p>
+          </div>
+        ) : (
+          <div className="space-y-2.5">
+            {chairOutput.verdict_sensitivity.map((item, idx) => {
+              const isDecisive = !item.projected_verdict_shift.toLowerCase().includes('no change');
+
+              return (
+                <div
+                  key={idx}
+                  className="p-3 rounded bg-[#1C1612] border border-[#3A3026] hover:border-[#4A3E34] transition-colors space-y-2"
+                >
+                  {/* Factor Header & Status Chip */}
+                  <div className="flex flex-wrap items-center justify-between gap-2">
+                    <div className="flex items-center gap-2">
+                      <span className="w-4 h-4 rounded bg-[#2A211A] text-[#DDB86C] border border-[#4A3E34] text-[10px] font-mono font-bold flex items-center justify-center">
+                        {idx + 1}
+                      </span>
+                      <span className="text-xs font-semibold text-[#F3EDE2] font-serif">
+                        {item.factor}
+                      </span>
+                    </div>
+
+                    <div className="flex items-center gap-2">
+                      <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-[#2A211A] text-[#C4B7A5] border border-[#3A3026]">
+                        Weight: {item.current_weight_contribution.toFixed(1)}
+                      </span>
+                      <span className={`text-[10px] font-mono font-semibold px-2 py-0.5 rounded border ${
+                        item.current_status === 'contested'
+                          ? 'bg-[#2C1818] text-[#E27D7D] border-[#6B3030]'
+                          : item.current_status === 'unverified'
+                          ? 'bg-[#2C2314] text-[#DDB86C] border-[#7A5F28]'
+                          : 'bg-[#1E1813] text-[#8E8070] border-[#3A3026]'
+                      }`}>
+                        {item.current_status.replace('_', ' ')}
+                      </span>
+                    </div>
+                  </div>
+
+                  {/* Impact / Shift Line */}
+                  <div className="flex items-center gap-2 flex-wrap text-xs font-mono">
+                    <span className="text-[#8E8070]">
+                      If {item.if_resolved_as}:
+                    </span>
+                    {isDecisive ? (
+                      <span className="px-2 py-0.5 rounded bg-[#2C2314] text-[#DDB86C] border border-[#7A5F28] font-bold flex items-center gap-1.5 shadow-xs">
+                        <ArrowRight className="w-3 h-3" />
+                        <span>{item.projected_verdict_shift}</span>
+                      </span>
+                    ) : (
+                      <span className="text-[#8E8070] italic">
+                        {item.projected_verdict_shift}
+                      </span>
+                    )}
+                  </div>
+
+                  {/* Actionable How to Resolve */}
+                  <div className="text-[11px] text-[#C4B7A5] bg-[#241D17] p-2 rounded border border-[#2E251D] flex items-start justify-between gap-2">
+                    <div className="flex items-start gap-1.5">
+                      <span className="text-[#DDB86C] font-mono font-semibold shrink-0">Action:</span>
+                      <span className="font-serif">{item.how_to_resolve}</span>
+                    </div>
+
+                    {item.source_quote && onOpenSource && (
+                      <button
+                        type="button"
+                        onClick={() => onOpenSource(item.source_quote!, item.source_label || "Sensitivity Factor")}
+                        className="text-[10px] font-mono text-[#DDB86C] hover:underline flex items-center gap-1 shrink-0 ml-2"
+                        title="Click to view source discussion"
+                      >
+                        <FileSearch className="w-3 h-3" />
+                        <span>View Source</span>
+                      </button>
+                    )}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        )}
+      </div>
+    </div>
+  );
+};

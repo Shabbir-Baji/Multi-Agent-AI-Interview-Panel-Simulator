@@ -1,0 +1,412 @@
+{
+  "candidate_id": "candidate_b",
+  "profile": {
+    "candidate_name": "Ananya Iyer",
+    "target_role": "Senior AI Systems Engineer (Backend → AI)",
+    "experience_years": 6,
+    "skills": [
+      "Python",
+      "FastAPI",
+      "LangChain",
+      "Chroma Vector Store",
+      "Single-Agent RAG",
+      "MongoDB",
+      "PostgreSQL",
+      "OCR Pipelines (Tesseract)",
+      "Prompt Eval Sets",
+      "Incident Post-Mortems",
+      "Docker"
+    ],
+    "claims": [
+      {
+        "claim": "Built internal RAG support-ticket assistant improving answer accuracy by ~40%.",
+        "evidence": "Interview Transcript (Q2): 'I want to be upfront about this — it was based on internal review, not a formal benchmark... I wouldn't want to present that number as something rigorous.'",
+        "verified": true,
+        "citation_source": "Transcript Q2"
+      },
+      {
+        "claim": "Introduced post-incident prompt deployment checklist and eval set adopted by team.",
+        "evidence": "Resume (Pg 1) & Interview Transcript (Q6): 'I proposed a pre-deploy checklist for prompt changes: a lightweight review step plus a small eval set to run before anything ships.'",
+        "verified": true,
+        "citation_source": "Transcript Q6"
+      },
+      {
+        "claim": "Multi-agent framework experience (LangGraph, CrewAI).",
+        "evidence": "Interview Transcript (Q3): 'Not in production. I’ve read through the docs for both and built a small planner/executor toy project... That’s a real gap relative to what this role needs.'",
+        "verified": true,
+        "citation_source": "Transcript Q3"
+      }
+    ],
+    "resume_facts": [
+      {
+        "category": "Experience",
+        "detail": "Software Engineer II at Bridgepoint Systems (Jun 2021 – Present, 4 years)",
+        "quote": "Maintains Python/FastAPI microservices; built internal RAG-based support-ticket assistant (LangChain + Chroma)."
+      },
+      {
+        "category": "Experience",
+        "detail": "Junior Backend Developer at Bridgepoint Systems (Jul 2019 – Jun 2021, 2 years)",
+        "quote": "Built basic REST APIs for internal tooling; worked with QA and product to define API contracts."
+      },
+      {
+        "category": "Education",
+        "detail": "B.E. Information Technology, 2019",
+        "quote": "Graduated with B.E. Information Technology in 2019."
+      },
+      {
+        "category": "Framework Scope",
+        "detail": "Single-agent RAG focus; no production multi-agent framework deployments",
+        "quote": "Resume Note: Has not used multi-agent orchestration frameworks (LangGraph, CrewAI, AutoGen) in production."
+      }
+    ],
+    "transcript_facts": [
+      {
+        "topic": "RAG Architecture & Semantic Chunking",
+        "detail": "Implemented section-based document chunking to preserve contextual boundaries.",
+        "quote": "We chunked documents by section rather than fixed length, since that kept related context together."
+      },
+      {
+        "topic": "Production Incident & Blameless Post-Mortem",
+        "detail": "Owned a bad prompt deployment openly, ran an incident retro, and instituted pre-deploy eval sets.",
+        "quote": "I ran an incident retro with the team and was direct that it was my mistake in the writeup — I didn’t want to soften that. I proposed a pre-deploy checklist for prompt changes: a lightweight review step plus a small eval set."
+      },
+      {
+        "topic": "Multi-Agent Framework Gap",
+        "detail": "Directly disclosed lack of production multi-agent orchestration experience.",
+        "quote": "Not in production. I’ve read through the docs for both and built a small planner/executor toy project on my own time, but everything I’ve actually shipped has been single-agent RAG. That’s a real gap relative to what this role needs, and I’d rather say that clearly than talk around it."
+      },
+      {
+        "topic": "Ramp-up Strategy & Codebase Immersion",
+        "detail": "Structured learning approach focusing on real failure patterns and pairing on bug fixes.",
+        "quote": "I’d start by reading through your existing planner/executor/reviewer code directly, rather than a general course, since the real failure patterns usually aren’t in the docs. Then I’d want to pair with someone on a small bug fix first, before touching the architecture itself."
+      },
+      {
+        "topic": "Adaptation & 6-Year Tenure",
+        "detail": "Evolved across multiple engineering responsibilities within one company.",
+        "quote": "I went from junior backend work, to leading a pipeline migration, to driving our team’s move into AI. So I’ve had to keep adapting, just inside one company."
+      }
+    ],
+    "gaps_missing_info": [
+      {
+        "gap": "Zero production deployment of multi-agent orchestration frameworks (LangGraph/CrewAI)",
+        "impact": "Requires a 2-3 week ramp-up on multi-agent failure patterns and cyclic graph debugging."
+      }
+    ]
+  },
+  "independent_opinions": {
+    "Technical": {
+      "score": 6.5,
+      "confidence": "high",
+      "invoked_at": "10:46:11.205 UTC",
+      "execution_order": 1,
+      "isolated_context_verified": true,
+      "requirement_breakdown": [
+        {
+          "requirement": "1. Multi-Agent Orchestration & Exception Recovery",
+          "status": "partially_met",
+          "evidence": "Interview Transcript (Q3): Toy projects only; no production multi-agent frameworks yet.",
+          "points": 1.25
+        },
+        {
+          "requirement": "2. Evaluation Rigor & Baseline Benchmark Telemetry",
+          "status": "met",
+          "evidence": "Interview Transcript (Q6): Instituted pre-deploy eval sets and honest metric calibration.",
+          "points": 2.5
+        },
+        {
+          "requirement": "3. Production Reliability, On-Call Ownership & Post-Mortem Guardrails",
+          "status": "met",
+          "evidence": "Interview Transcript (Q5/Q6): Handled 2-hour outage, ran blameless retro, added checklist.",
+          "points": 2.5
+        },
+        {
+          "requirement": "4. Team Collaboration, Authorship Integrity & Retention Commitment",
+          "status": "met",
+          "evidence": "Interview Transcript (Q10): 6-year tenure at Bridgepoint; transparent about skill boundaries.",
+          "points": 2.5
+        }
+      ],
+      "strengths": [
+        {
+          "point": "Solid RAG grounding with smart section-based semantic chunking.",
+          "evidence": "Interview Transcript (Q1): 'We chunked documents by section rather than fixed length, since that kept related context together.'",
+          "evidence_strength": "direct_statement",
+          "strength_justification": "Detailed explanation of chunking strategy in response to technical probing."
+        },
+        {
+          "point": "Rigorous pragmatic ramp-up plan focused on existing codebase failure patterns.",
+          "evidence": "Interview Transcript (Q4): 'I’d start by reading through your existing planner/executor/reviewer code directly... since the real failure patterns usually aren’t in the docs.'",
+          "evidence_strength": "direct_statement",
+          "strength_justification": "Proactive and specific methodology for mastering system failure patterns."
+        }
+      ],
+      "concerns": [
+        {
+          "point": "Has never shipped multi-agent systems in production; only single-agent RAG.",
+          "evidence": "Interview Transcript (Q3): 'Not in production... everything I’ve actually shipped has been single-agent RAG. That’s a real gap...'",
+          "evidence_strength": "direct_statement",
+          "strength_justification": "Direct candidate disclosure of framework gap."
+        }
+      ],
+      "unknowns": [
+        "Speed of grasping cyclic multi-agent state machines and timeout fallbacks."
+      ],
+      "summary": "- Demonstrates solid RAG grounding with semantic chunking (Q1)\n- Acknowledges day-one gap in production multi-agent framework orchestration (Q3)\n- Proposes concrete codebase immersion ramp-up plan (Q4)"
+    },
+    "HR": {
+      "score": 9.5,
+      "confidence": "high",
+      "invoked_at": "10:46:11.410 UTC",
+      "execution_order": 2,
+      "isolated_context_verified": true,
+      "strengths": [
+        {
+          "point": "Exceptional accountability and blameless post-mortem leadership.",
+          "evidence": "Interview Transcript (Q6/Q7): 'I ran an incident retro with the team and was direct that it was my mistake in the writeup... I didn’t try to shift blame.'",
+          "evidence_strength": "direct_statement",
+          "strength_justification": "Detailed narrative of post-incident ownership confirmed by follow-up probing."
+        },
+        {
+          "point": "Proven 6-year retention record with continuous internal adaptation from Junior to AI lead.",
+          "evidence": "Interview Transcript (Q10): 'I went from junior backend work, to leading a pipeline migration, to driving our team’s move into AI.'",
+          "evidence_strength": "direct_statement",
+          "strength_justification": "Corroborated between resume dates and interview explanation."
+        }
+      ],
+      "concerns": [],
+      "unknowns": [
+        "Pace of transition from established corporate tempo to fast-moving startup environment."
+      ],
+      "summary": "- Demonstrates world-class ownership and blameless post-mortem leadership (Q6/Q7)\n- Proves continuous internal adaptation across 6-year single-company tenure (Q10)"
+    },
+    "HiringManager": {
+      "score": 8.5,
+      "confidence": "high",
+      "invoked_at": "10:46:11.630 UTC",
+      "execution_order": 3,
+      "isolated_context_verified": true,
+      "requirement_breakdown": [
+        {
+          "requirement": "1. Multi-Agent Orchestration & Exception Recovery",
+          "status": "partially_met",
+          "evidence": "Rampable gap given strong Python and API fundamentals.",
+          "points": 1.25
+        },
+        {
+          "requirement": "2. Evaluation Rigor & Baseline Benchmark Telemetry",
+          "status": "met",
+          "evidence": "Builds eval sets and honest benchmarks.",
+          "points": 2.5
+        },
+        {
+          "requirement": "3. Production Reliability, On-Call Ownership & Post-Mortem Guardrails",
+          "status": "met",
+          "evidence": "Proven incident ownership and preventive process design.",
+          "points": 2.5
+        },
+        {
+          "requirement": "4. Team Collaboration, Authorship Integrity & Retention Commitment",
+          "status": "met",
+          "evidence": "High trust, 6-year tenure, transparent boundaries.",
+          "points": 2.5
+        }
+      ],
+      "strengths": [
+        {
+          "point": "Production-safety mindset; builds preventive guardrails (eval sets) after incidents.",
+          "evidence": "Interview Transcript (Q6): 'I proposed a pre-deploy checklist for prompt changes: a lightweight review step plus a small eval set to run before anything ships.'",
+          "evidence_strength": "direct_statement",
+          "strength_justification": "Implemented concrete engineering process changes following an outage."
+        },
+        {
+          "point": "Transparent self-awareness and proactive help-seeking habit.",
+          "evidence": "Interview Transcript (Q8): 'I tend to ask for help early instead of quietly struggling, which I think matters more for ramp time...'",
+          "evidence_strength": "inferred",
+          "strength_justification": "Demonstrated throughout interview by candidly identifying knowledge boundaries."
+        }
+      ],
+      "concerns": [
+        {
+          "point": "Will require pairing and ramp-up time before owning multi-agent architecture independently.",
+          "evidence": "Interview Transcript (Q4): 'Then I’d want to pair with someone on a small bug fix first, before touching the architecture itself.'",
+          "evidence_strength": "direct_statement",
+          "strength_justification": "Candidate explicitly requested initial pairing."
+        }
+      ],
+      "unknowns": [
+        "Time to first independent multi-agent PR merged in production."
+      ],
+      "summary": "- Exhibits production-safety mindset with preventive eval checklists (Q6)\n- Transparent about skill boundaries with proactive help-seeking habit (Q8)"
+    },
+    "Skeptic": {
+      "score": 7.0,
+      "confidence": "high",
+      "invoked_at": "10:46:11.850 UTC",
+      "execution_order": 4,
+      "isolated_context_verified": true,
+      "strengths": [
+        {
+          "point": "Voluntarily de-inflated resume claim (~40% metric) before being pressed.",
+          "evidence": "Interview Transcript (Q2): 'I want to be upfront about this — it was based on internal review, not a formal benchmark... I wouldn't want to present that number as something rigorous...'",
+          "evidence_strength": "direct_statement",
+          "strength_justification": "Proactively disclosed informal nature of resume benchmark before Skeptic cross-examination."
+        },
+        {
+          "point": "Did not attempt to disguise multi-agent gap with buzzwords.",
+          "evidence": "Interview Transcript (Q3): 'That’s a real gap relative to what this role needs, and I’d rather say that clearly than talk around it.'",
+          "evidence_strength": "direct_statement",
+          "strength_justification": "Immediate and blameless acknowledgment of day-one framework limitation."
+        }
+      ],
+      "concerns": [
+        {
+          "point": "Initial ramp time is unavoidable on complex stateful multi-agent DAGs.",
+          "evidence": "Resume Note: 'Has not used multi-agent orchestration frameworks (LangGraph, CrewAI, AutoGen) in production.'",
+          "evidence_strength": "direct_statement",
+          "strength_justification": "Confirmed by both resume note and interview answer."
+        }
+      ],
+      "unknowns": [
+        "Comfort with non-deterministic agent loop debugging."
+      ],
+      "summary": "- Voluntarily qualified resume accuracy metric prior to questioning (Q2)\n- Refuses to exaggerate skills or disguise framework limitations (Q3)"
+    }
+  },
+  "debate_log": [
+    {
+      "round": 1,
+      "agent": "Skeptic",
+      "target_agent": "Technical",
+      "claim_being_addressed": "Has never shipped multi-agent systems in production; only single-agent RAG.",
+      "steelman": "Technical is cautious because our team builds complex cyclic orchestrators, and onboarding someone with zero production graph experience introduces short-term velocity risk.",
+      "counter_evidence": "Interview Transcript (Q8): proven learning curve (OCR -> RAG) and Q2 upfront metric de-inflation",
+      "target_point_quote": "Has never shipped multi-agent systems in production; only single-agent RAG.",
+      "reaction": "agree",
+      "stance_shift_type": "STANCE SHIFTED",
+      "opinion_before": {
+        "score": 7.0,
+        "stance": "Admire honesty, cautious on ramp"
+      },
+      "saw": [
+        "Interview Transcript (Q2): upfront metric de-inflation",
+        "Interview Transcript (Q8): proven learning curve (OCR -> RAG)"
+      ],
+      "reasoning": "Technical penalized her to 6.5 for the multi-agent gap. But unlike Candidate A who claimed fake sole authorship, Ananya explicitly flagged her gap, explained her concrete code-immersion ramp plan (Q4), and proved she learned OCR and RAG from scratch (Q8). She is safe to ramp.",
+      "opinion_after": {
+        "score": 8.0,
+        "stance": "High confidence in safe ramp-up and zero resume fraud"
+      },
+      "changed": true,
+      "change_reason": "Score upgraded 7.0 -> 8.0 after validating candidate's proven ability to pick up new AI stacks rapidly and truthfully."
+    },
+    {
+      "round": 1,
+      "agent": "Technical",
+      "target_agent": "Skeptic",
+      "claim_being_addressed": "Voluntarily de-inflated resume claim and demonstrated incident ownership guardrails.",
+      "steelman": "Skeptic emphasizes that an engineer who builds pre-deploy eval sets and tells the absolute truth about code limitations is vastly safer in production than a candidate with inflated claims.",
+      "counter_evidence": "Interview Transcript (Q4): pairing on bug fix before touching architecture",
+      "target_point_quote": "Voluntarily de-inflated resume claim and demonstrated incident ownership guardrails.",
+      "reaction": "agree",
+      "stance_shift_type": "STANCE SHIFTED",
+      "opinion_before": {
+        "score": 6.5,
+        "stance": "Reserved due to multi-agent framework gap"
+      },
+      "saw": [
+        "Interview Transcript (Q4): pairing on bug fix before touching architecture",
+        "Interview Transcript (Q6): pre-deploy eval set implementation"
+      ],
+      "reasoning": "Skeptic and HR make a compelling case: multi-agent syntax (LangGraph/CrewAI) is easy to learn for an engineer who understands vector retrieval, FastAPI, and evaluation sets. What cannot be taught is production humility and incident discipline. Upgrading score.",
+      "opinion_after": {
+        "score": 8.5,
+        "stance": "Convinced: foundational engineering rigor outweighs framework syntax gap"
+      },
+      "changed": true,
+      "change_reason": "Score upgraded 6.5 -> 8.5 after recognizing that framework syntax is quickly learnable given strong evaluation and API foundation."
+    },
+    {
+      "round": 2,
+      "agent": "HiringManager",
+      "target_agent": "HR",
+      "claim_being_addressed": "World-class ownership, extreme honesty about skill boundaries, and exemplary team culture fit.",
+      "steelman": "HR views her 6-year track record of blameless post-mortems and internal promotions as proof she is a force multiplier for engineering culture.",
+      "counter_evidence": "Technical's upgraded rating 8.5 and Skeptic's upgraded rating 8.0",
+      "target_point_quote": "World-class ownership, extreme honesty about skill boundaries, and exemplary team culture fit.",
+      "reaction": "agree",
+      "stance_shift_type": "STANCE SHIFTED",
+      "opinion_before": {
+        "score": 8.5,
+        "stance": "Favorable on production safety"
+      },
+      "saw": [
+        "Technical's upgraded rating 8.5",
+        "Skeptic's upgraded rating 8.0"
+      ],
+      "reasoning": "With Technical now confident in her ramp trajectory and Skeptic verifying zero resume inflation, the entire committee is aligned on her strong hire potential.",
+      "opinion_after": {
+        "score": 9.0,
+        "stance": "Strong Hire: optimal balance of engineering rigor, integrity, and safety"
+      },
+      "changed": true,
+      "change_reason": "Score refined 8.5 -> 9.0 due to unanimous committee convergence."
+    }
+  ],
+  "chair_output": {
+    "final_recommendation": "Strong Hire",
+    "confidence": "high",
+    "confidence_cap_reason": null,
+    "reasoning_steps": [
+      "1. Pre-debate score variance was low (1.17), indicating strong baseline panel consensus regarding candidate's high integrity.",
+      "2. Hybrid Deterministic Weighing computed net weighted score 8.65/10 (vs raw arithmetic mean 7.88/10), boosted by 1.0 confidence multipliers, high direct_statement weights, and zero contested penalties.",
+      "3. In structured debate, Skeptic steelmanned Technical's framework caution before citing candidate's rapid adaptability (OCR → RAG).",
+      "4. Technical recognized candidate's proposed pairing strategy (Interview Transcript Q4) and eval set guardrails (Q6) demonstrate superior production maturity.",
+      "5. Committee reached unanimous convergence with all members upgrading ratings (Technical: 8.5, Skeptic: 8.0, Hiring Manager: 9.0, HR: 9.5).",
+      "6. Chair concludes Ananya is a Strong Hire (High Confidence, Unanimous Alignment Earned) based on verified deterministic weights and flawless claim integrity."
+    ],
+    "key_evidence_for": [
+      {
+        "point": "Flawless technical honesty and voluntary verification of claim boundaries.",
+        "evidence": "Interview Transcript (Q2/Q3): 'I want to be upfront about this... That's a real gap relative to what this role needs, and I'd rather say that clearly than talk around it.'",
+        "evidence_strength": "direct_statement",
+        "strength_justification": "Candidate voluntarily de-inflated benchmark metric."
+      },
+      {
+        "point": "Demonstrated production incident ownership and institutionalization of eval guardrails.",
+        "evidence": "Interview Transcript (Q6): 'I proposed a pre-deploy checklist for prompt changes: a lightweight review step plus a small eval set to run before anything ships.'",
+        "evidence_strength": "direct_statement",
+        "strength_justification": "Created team-wide pre-deploy verification process."
+      },
+      {
+        "point": "Track record of rapid adaptation across technical domains (OCR pipelines → RAG).",
+        "evidence": "Interview Transcript (Q8): 'I’ve picked up new technical areas quickly before — OCR pipelines, then RAG — and I tend to ask for help early.'",
+        "evidence_strength": "direct_statement",
+        "strength_justification": "Demonstrated progression across multiple engineering subfields."
+      }
+    ],
+    "key_evidence_against": [
+      {
+        "point": "Absence of production multi-agent framework deployments (LangGraph/CrewAI) requires 2-3 week ramp-up.",
+        "evidence": "Interview Transcript (Q3) & Resume: 'Not in production... everything I’ve actually shipped has been single-agent RAG.'",
+        "evidence_strength": "direct_statement",
+        "strength_justification": "Explicitly confirmed by candidate and resume note."
+      }
+    ],
+    "unresolved_disagreements": [],
+    "missing_info_caveats": [
+      "Specific timeline on first production multi-agent PR during initial 30 days."
+    ],
+    "verdict_sensitivity": [
+      {
+        "factor": "Absence of production multi-agent framework deployments (single-agent RAG experience vs multi-agent planner-executor)",
+        "current_status": "weakly_evidenced",
+        "current_weight_contribution": 1.5,
+        "if_resolved_as": "disproven",
+        "projected_verdict_shift": "No change — not decisive enough alone",
+        "how_to_resolve": "Assess hands-on coding task on planner-executor-reviewer decomposition during onboarding pairing session",
+        "source_quote": "Interview Transcript (Q3): 'Not in production... everything I’ve actually shipped has been single-agent RAG.'",
+        "source_label": "Technical Evaluation"
+      }
+    ]
+  }
+}

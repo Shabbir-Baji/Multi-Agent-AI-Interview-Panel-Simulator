@@ -1,0 +1,176 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    /* Base Dark Aged-Walnut & Umber Surfaces */
+    --walnut-canvas: #1A140F;       /* Deep dark umber leather canvas */
+    --walnut-surface: #241D17;      /* Primary ledger document surface */
+    --walnut-subtle: #1E1813;       /* Inset table / recessed container */
+    --walnut-highlight: #30261E;    /* Active tab / hover / elevated surface */
+    --walnut-deep: #15100C;         /* Recessed code block / input background */
+
+    /* Inks & Text (Warm Off-White / Parchment Ivory for High Contrast) */
+    --parchment-primary: #F3EDE2;   /* Warm off-white parchment text (13.8:1 contrast) */
+    --parchment-secondary: #C4B7A5; /* Warm antique bone for descriptions */
+    --parchment-muted: #8E8070;     /* Muted sepia stone for timestamps & footnotes */
+
+    /* Borders & Hairlines */
+    --border-walnut: #3A3026;       /* Solid warm bronze-walnut border */
+    --border-subtle: #2C241D;       /* Inner hairline divider */
+    --border-seal: #8C7355;         /* Antique brass/bronze charter seal border */
+
+    /* Antique Gold / Brass (Main "Seal" Accent & Highlights) */
+    --brass-accent: #DDB86C;        /* Warm luminous antique brass text/stroke */
+    --brass-bg: #2C2314;            /* Muted brass tinted background */
+    --brass-border: #7A5F28;        /* Antique brass border */
+
+    /* Moss / Forest Green (Strengths & Verified) */
+    --moss-accent: #78B88A;         /* Muted forest moss text/stroke */
+    --moss-bg: #1A271E;             /* Muted moss tinted background */
+    --moss-border: #3A5F44;         /* Forest moss border */
+
+    /* Oxblood / Burgundy (Concerns & Risks) */
+    --oxblood-accent: #E27D7D;      /* Muted warm oxblood text/stroke */
+    --oxblood-bg: #2C1818;          /* Muted oxblood tinted background */
+    --oxblood-border: #6B3030;      /* Oxblood border */
+
+    /* Slate Brown / Neutral (Held Positions & Secondary Signals) */
+    --slate-accent: #B8ABA0;        /* Muted slate-brown text */
+    --slate-bg: #26201A;            /* Muted slate-brown background */
+    --slate-border: #4A3E34;        /* Muted slate-brown border */
+  }
+
+  body {
+    background-color: var(--walnut-canvas);
+    color: var(--parchment-primary);
+    font-family: 'Newsreader', Georgia, Cambria, 'Times New Roman', Times, serif;
+    min-height: 100vh;
+    margin: 0;
+    padding: 0;
+    -webkit-font-smoothing: antialiased;
+    letter-spacing: -0.005em;
+  }
+
+  h1, h2, h3, h4, .font-charter {
+    font-family: 'Cinzel', Georgia, serif;
+    letter-spacing: 0.02em;
+  }
+
+  code, pre, .font-mono {
+    font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  }
+
+  /* Walnut scrollbar */
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    background: #1A140F;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #3A3026;
+    border-radius: 2px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: #524436;
+  }
+}
+
+/* Formal Dark Walnut Footnote / Quote Marginalia */
+.quote-box {
+  background: #1E1813;
+  border-left: 3px solid var(--border-seal);
+  border-radius: 0 3px 3px 0;
+  padding: 0.55rem 0.75rem;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.75rem;
+  color: var(--parchment-secondary);
+  line-height: 1.5;
+}
+
+.quote-box-emerald {
+  background: var(--moss-bg);
+  border-left: 3px solid var(--moss-accent);
+  color: var(--moss-accent);
+}
+
+.quote-box-rose {
+  background: var(--oxblood-bg);
+  border-left: 3px solid var(--oxblood-accent);
+  color: var(--oxblood-accent);
+}
+
+.quote-box-amber {
+  background: var(--brass-bg);
+  border-left: 3px solid var(--brass-accent);
+  color: var(--brass-accent);
+}
+
+.quote-box-neutral {
+  background: var(--slate-bg);
+  border-left: 3px solid var(--slate-accent);
+  color: var(--parchment-secondary);
+}
+
+/* Dark Charter Card & Notary Seal Styles */
+.charter-card {
+  background-color: var(--walnut-surface);
+  border: 1px solid var(--border-walnut);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
+}
+
+.charter-inset {
+  background-color: var(--walnut-subtle);
+  border: 1px solid var(--border-subtle);
+}
+
+.seal-badge {
+  border: 1.5px solid currentColor;
+  padding: 0.2rem 0.55rem;
+  font-family: 'Cinzel', Georgia, serif;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+/* Subtle Ornamental Hairline Divider */
+.ornament-divider {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  color: var(--border-seal);
+  font-size: 0.75rem;
+  margin: 1rem 0;
+}
+.ornament-divider::before,
+.ornament-divider::after {
+  content: '';
+  flex: 1;
+  border-bottom: 1px solid var(--border-walnut);
+}
+.ornament-divider:not(:empty)::before {
+  margin-right: .75em;
+}
+.ornament-divider:not(:empty)::after {
+  margin-left: .75em;
+}
+
+/* Print optimizations */
+@media print {
+  body {
+    background-color: #FFFFFF !important;
+    color: #1C1713 !important;
+  }
+  .no-print {
+    display: none !important;
+  }
+  .print-only {
+    display: block !important;
+  }
+  .charter-card, .quote-box {
+    border: 1px solid #C7BDAA !important;
+    background: #FFFFFF !important;
+    color: #1C1713 !important;
+  }
+}
